@@ -10,7 +10,7 @@ const Navbar = () => {
   return (
     <nav className="flex items-center justify-between border-b border-b-neutral-800 p-4 text-white">
       <h1 className="font-bold text-2xl">GYMFORAGE</h1>
-      <div className="transition-transform duration-300" onClick={() => setIsOpen(!isOpen)}>
+      <div className="transition-transform duration-300 cursor-pointer" onClick={() => setIsOpen(!isOpen)}>
         <GiHamburgerMenu size={30} />
       </div>
       { isOpen && (
