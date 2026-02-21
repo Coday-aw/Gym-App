@@ -1,7 +1,7 @@
 export const navLinks = [
   { href: "#features", label: "Features" },
   { href: "#progress", label: "How it Works" },
-  { href: "/pages/progress", label: "Login" },
+  { href: "/sign-in", label: "Login" },
 ];
 export const features = [
     {
@@ -24,14 +24,32 @@ export const features = [
 export const progress = [
     {
         title: "Create exercises",
-        discription: "Add your favorites lifts to your exercise library. Orginize them by muscle group for easy access"
+        description: "Add your favorites lifts to your exercise library. Orginize them by muscle group for easy access"
     },
     {
         title: "Log your workout",
-        discription: "Select exercises, enter your sets, record weight and reps. Simple, fast and effective"
+        description: "Select exercises, enter your sets, record weight and reps. Simple, fast and effective"
     },
     {
         title: "Watch growth",
-        discription: "View your progress and celebrate every PR. Your strength journey visualized beautifully"
+        description: "View your progress and celebrate every PR. Your strength journey visualized beautifully"
+    }
+]
+
+export const pageLinks = [
+    {
+        title: "Workouts",
+        href: "/pages/workouts",
+        icon: "🏠"
+    },
+    {
+        title: "Exercises",
+        href: "/pages/exercises",
+        icon: "🏋️‍♂️"
+    },
+    {
+        title: "Progress",
+        href: "/pages/progress",
+        icon: "📊"
     }
 ]
