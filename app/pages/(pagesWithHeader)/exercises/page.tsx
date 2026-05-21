@@ -77,7 +77,7 @@ export default function Exercises() {
           return (
             <div key={category} className="glass-card overflow-hidden">
               {/* Category header */}
-              <div className={`bg-gradient-to-r ${categoryColorsAndIcons[category]} p-4 border-b border-slate-700/30`}>
+              <div className={`bg-gradient-to-r ${categoryColorsAndIcons[category].bg} p-4 border-b border-slate-700/30`}>
                 <div className="flex items-center gap-3">
                   <span className="text-2xl">{categoryIcons[category]}</span>
                   <div>

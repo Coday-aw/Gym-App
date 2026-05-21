@@ -1,11 +1,11 @@
 
 export const categoryColors: Record<string, string> = {
-    CHEST: "from-red-500/20 to-red-600/10 border-red-500/20",
-    BACK: "from-blue-500/20 to-blue-600/10 border-blue-500/20",
-    LEGS: "from-violet-500/20 to-violet-600/10 border-violet-500/20",
-    SHOULDERS: "from-amber-500/20 to-amber-600/10 border-amber-500/20",
-    ARMS: "from-emerald-500/20 to-emerald-600/10 border-emerald-500/20",
-    ABS: "from-pink-500/20 to-pink-600/10 border-pink-500/20",
+    CHEST: "bg-gradient-to-r from-red-500/20 to-red-600/10 border-red-500/20 text-red-400",
+    BACK: "bg-gradient-to-r from-blue-500/20 to-blue-600/10 border-blue-500/20 text-blue-400",
+    LEGS: "bg-gradient-to-r from-violet-500/20 to-violet-600/10 border-violet-500/20 text-violet-400",
+    SHOULDERS: "bg-gradient-to-r from-amber-500/20 to-amber-600/10 border-amber-500/20 text-amber-400",
+    ARMS: "bg-gradient-to-r from-emerald-500/20 to-emerald-600/10 border-emerald-500/20 text-emerald-400",
+    ABS: "bg-gradient-to-r from-pink-500/20 to-pink-600/10 border-pink-500/20 text-pink-400",
 };
 
 
