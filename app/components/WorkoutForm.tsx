@@ -9,7 +9,7 @@ import { supabase } from "../lib/SupbaseClient";
 import SetsForm from "./SetsForm";
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
-import toast from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 
 
 const WorkoutForm = () => {
@@ -184,6 +184,7 @@ const WorkoutForm = () => {
 
   return (
     <form className="mt-6 space-y-6" onSubmit={handleSubmit}>
+      <Toaster position="top-center" />
       <div className="glass-card p-6 space-y-5">
         <div>
           <Label htmlFor="WorkoutTitle">Workout title</Label>

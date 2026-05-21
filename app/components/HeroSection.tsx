@@ -1,5 +1,5 @@
 import Title from "./Title";
-import { features, progress } from "../lib/data";
+import { features, progress } from "../constants/features";
 import Link from "next/link";
 
 const HeroSection = () => {

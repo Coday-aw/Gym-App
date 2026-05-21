@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { PersonalRecord, WorkoutStats } from "../lib/types";
 import { supabase } from "../lib/SupbaseClient";
-import { categories } from "../lib/data";
+import { categories } from "../constants/categories";
 
 const useProgress = (userId: string) => {
   const [prs, setPrs] = useState<PersonalRecord[]>([]);

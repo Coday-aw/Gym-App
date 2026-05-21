@@ -9,7 +9,8 @@ import useWorkouts from "@/app/hooks/useWorkout";
 import { useUser } from "@clerk/nextjs";
 import { supabase } from "@/app/lib/SupbaseClient";
 import { useState } from "react";
-import toast from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
+import { getCategoryColor } from "@/app/constants/categories";
 
 export default function Workouts() {
   const { user } = useUser();
@@ -18,41 +19,76 @@ export default function Workouts() {
   const [deletingId, setDeletingId] = useState<number | null>(null);
 
   const handleDelete = async (e: React.MouseEvent, workoutId: number) => {
+
+    // step 1: stop propagation
     e.stopPropagation();
+
+    // step 2: confirm deletion
     if (!confirm("Delete this workout? This action cannot be undone.")) return;
 
     setDeletingId(workoutId);
+
+    // step 3: delete from sets table 
+    try {
+      const { data: workoutExercises, error: fetchError } = await supabase
+        .from("workouts_exercises")
+        .select("id")
+        .eq("workout_id", workoutId);
+
+      if (fetchError) throw fetchError;
+
+      if (workoutExercises && workoutExercises.length > 0) {
+        const exerciseIds = workoutExercises.map(we => we.id);
+        const { error } = await supabase
+          .from("sets")
+          .delete()
+          .in("workout_exercise_id", exerciseIds);
+        if (error) throw error;
+      }
+    } catch (error) {
+      console.error("Error deleting sets:", error);
+    }
+
+    // step 4: delete from workouts_exercises table
+    try {
+      const { error } = await supabase
+        .from("workouts_exercises")
+        .delete()
+        .eq("workout_id", workoutId);
+      if (error) throw error;
+    } catch (error) {
+      console.error("Error deleting workouts_exercises:", error);
+    }
+
+    // step 5: delete from workouts table
     try {
       const { error } = await supabase
         .from("workouts")
         .delete()
         .eq("id", workoutId);
       if (error) throw error;
-      toast.success("Workout deleted successfully");
+
+      // step 6: refetch
       refetch();
+
+      // step 7: show success message
+      toast.success("Workout deleted successfully");
+
     } catch (error) {
       console.error("Error deleting workout:", error);
       toast.error("Failed to delete workout");
     } finally {
+      // step 8: stop loading
       setDeletingId(null);
     }
   };
 
-  const getCategoryColor = (category: string) => {
-    const colors: Record<string, string> = {
-      CHEST: "bg-red-500/15 text-red-400 border-red-500/20",
-      BACK: "bg-blue-500/15 text-blue-400 border-blue-500/20",
-      LEGS: "bg-violet-500/15 text-violet-400 border-violet-500/20",
-      SHOULDERS: "bg-amber-500/15 text-amber-400 border-amber-500/20",
-      ARMS: "bg-emerald-500/15 text-emerald-400 border-emerald-500/20",
-      ABS: "bg-pink-500/15 text-pink-400 border-pink-500/20",
-    };
-    return colors[category] || "bg-slate-500/15 text-slate-400 border-slate-500/20";
-  };
+
 
   return (
     <div className="animate-fade-in">
       {/* Top bar */}
+      <Toaster position="top-center" />
       <section className="flex justify-between items-center mt-6 mb-6">
         <div>
           <Title size="text-2xl">Workouts</Title>

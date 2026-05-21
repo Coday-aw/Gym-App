@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { pageLinks } from "../lib/data";
+import { pageLinks } from "../constants/nav";
 import { usePathname } from "next/navigation";
 import { UserButton } from "@clerk/nextjs";
 
@@ -13,11 +13,10 @@ const Header = () => {
           <li key={index} className="flex-1">
             <Link
               href={link.href}
-              className={`flex flex-col justify-center items-center py-2 px-3 rounded-xl text-sm font-semibold transition-all duration-300 ${
-                pathname === link.href
+              className={`flex flex-col justify-center items-center py-2 px-3 rounded-xl text-sm font-semibold transition-all duration-300 ${pathname === link.href
                   ? "bg-gradient-to-r from-emerald-500/20 to-cyan-500/20 text-emerald-400 shadow-inner"
                   : "text-slate-400 hover:text-slate-200 hover:bg-slate-800/50"
-              }`}
+                }`}
             >
               <span className="text-lg mb-0.5">{link.icon}</span>
               <span className="text-xs tracking-wider uppercase">{link.title}</span>

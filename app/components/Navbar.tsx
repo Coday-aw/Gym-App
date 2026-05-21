@@ -1,7 +1,7 @@
 "use client";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { IoClose } from "react-icons/io5";
-import { navLinks } from "../lib/data";
+import { navLinks } from "../constants/nav";
 import { useState } from "react";
 import Link from "next/link";
 

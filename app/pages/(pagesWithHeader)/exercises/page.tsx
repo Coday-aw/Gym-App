@@ -1,12 +1,15 @@
 "use client";
 import Button from "@/app/components/Button";
 import React, { useState } from "react";
-import { categories } from "@/app/lib/data";
 import { supabase } from "@/app/lib/SupbaseClient";
 import useExercises from "@/app/hooks/useExercise";
 import { useUser } from "@clerk/nextjs";
 import Title from "@/app/components/Title";
-import toast from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
+import { categories } from "@/app/constants/categories";
+
+
+
 
 const categoryIcons: Record<string, string> = {
   CHEST: "🫁",
@@ -77,6 +80,7 @@ export default function Exercises() {
   return (
     <div className="animate-fade-in">
       {/* Header */}
+      <Toaster position="top-center" />
       <section className="flex items-center justify-between mt-6 mb-6">
         <div>
           <Title size="text-2xl">Exercises</Title>
