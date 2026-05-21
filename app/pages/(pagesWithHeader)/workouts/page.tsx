@@ -137,8 +137,8 @@ export default function Workouts() {
         <div className="flex gap-2 mb-6 bg-slate-800/50 p-1 rounded-xl w-full max-w-sm mx-auto">
           <button
             className={`flex-1 py-2.5 text-sm font-medium rounded-lg transition-all ${activeTab === "upcoming"
-                ? "bg-gradient-to-r from-emerald-500 to-cyan-500 text-white shadow-lg shadow-emerald-500/20"
-                : "text-slate-400 hover:text-slate-200 hover:bg-slate-700/50"
+              ? "bg-gradient-to-r from-emerald-500 to-cyan-500 text-white shadow-lg shadow-emerald-500/20"
+              : "text-slate-400 hover:text-slate-200 hover:bg-slate-700/50"
               }`}
             onClick={() => setActiveTab("upcoming")}
           >
@@ -146,8 +146,8 @@ export default function Workouts() {
           </button>
           <button
             className={`flex-1 py-2.5 text-sm font-medium rounded-lg transition-all ${activeTab === "past"
-                ? "bg-gradient-to-r from-emerald-500 to-cyan-500 text-white shadow-lg shadow-emerald-500/20"
-                : "text-slate-400 hover:text-slate-200 hover:bg-slate-700/50"
+              ? "bg-gradient-to-r from-emerald-500 to-cyan-500 text-white shadow-lg shadow-emerald-500/20"
+              : "text-slate-400 hover:text-slate-200 hover:bg-slate-700/50"
               }`}
             onClick={() => setActiveTab("past")}
           >
