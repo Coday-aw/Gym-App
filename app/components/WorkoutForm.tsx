@@ -218,7 +218,7 @@ const WorkoutForm = () => {
         </div>
 
         {isOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 modal-overlay">
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm p-4 modal-overlay">
             <div className="w-full max-w-lg glass rounded-2xl p-6 shadow-2xl modal-content">
               <div className="flex items-center justify-between mb-4">
                 <Title size="text-lg">Select Exercise</Title>

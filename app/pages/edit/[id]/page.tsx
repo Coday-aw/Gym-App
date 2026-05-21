@@ -9,13 +9,8 @@ import Title from "@/app/components/Title";
 import Button from "@/app/components/Button";
 import Label from "@/app/components/Label";
 import SetsForm from "@/app/components/SetsForm";
-
-type WorkoutExerciseWithDbId = {
-  exerciseId: number;
-  workoutExerciseId?: number;
-  exercise: Exercise | null;
-  sets: Set[];
-};
+import toast from "react-hot-toast";
+import { WorkoutExerciseWithDbId } from "@/app/lib/types";
 
 function EditPage() {
   const [workout, setWorkout] = useState<(Workout & { exercises: WorkoutExerciseWithDbId[] }) | null>(null);
@@ -121,13 +116,63 @@ function EditPage() {
 
   const handleDelete = async () => {
     if (!workout || !confirm("Delete this workout permanently?")) return;
-    await supabase.from("workouts").delete().eq("id", workout.id);
-    router.push("/pages/workouts");
+    const workoutId = workout.id;
+
+    // step 1: delete from sets table 
+    try {
+      const { data: workoutExercises, error: fetchError } = await supabase
+        .from("workouts_exercises")
+        .select("id")
+        .eq("workout_id", workoutId);
+
+      if (fetchError) throw fetchError;
+
+      if (workoutExercises && workoutExercises.length > 0) {
+        const exerciseIds = workoutExercises.map(we => we.id);
+        const { error } = await supabase
+          .from("sets")
+          .delete()
+          .in("workout_exercise_id", exerciseIds);
+        if (error) throw error;
+      }
+    } catch (error) {
+      console.error("Error deleting sets:", error);
+      toast.error("Failed to delete sets");
+      return;
+    }
+
+    // step 2: delete from workouts_exercises table
+    try {
+      const { error } = await supabase
+        .from("workouts_exercises")
+        .delete()
+        .eq("workout_id", workoutId);
+      if (error) throw error;
+    } catch (error) {
+      console.error("Error deleting workouts_exercises:", error);
+      toast.error("Failed to delete workouts_exercises");
+      return;
+    }
+
+    // step 3: delete from workouts table
+    try {
+      const { error } = await supabase
+        .from("workouts")
+        .delete()
+        .eq("id", workoutId);
+      if (error) throw error;
+
+      toast.success("Workout deleted successfully");
+      router.push("/pages/workouts");
+    } catch (error) {
+      console.error("Error deleting workout:", error);
+      toast.error("Failed to delete workout");
+    }
   };
 
   if (loading) return (
     <div className="min-h-screen max-w-2xl mx-auto p-4">
-      <div className="glass-card p-6 mt-4"><div className="skeleton h-8 w-48 mb-4" /><div className="skeleton h-4 w-32 mb-8" />{[1,2,3].map(i => <div key={i} className="skeleton h-20 w-full mt-4" />)}</div>
+      <div className="glass-card p-6 mt-4"><div className="skeleton h-8 w-48 mb-4" /><div className="skeleton h-4 w-32 mb-8" />{[1, 2, 3].map(i => <div key={i} className="skeleton h-20 w-full mt-4" />)}</div>
     </div>
   );
 
@@ -157,7 +202,7 @@ function EditPage() {
         </div>
 
         {modalOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 modal-overlay">
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm p-4 modal-overlay">
             <div className="w-full max-w-lg glass rounded-2xl p-6 shadow-2xl modal-content">
               <div className="flex items-center justify-between mb-4">
                 <Title size="text-lg">Select Exercise</Title>

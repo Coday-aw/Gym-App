@@ -6,37 +6,11 @@ import useExercises from "@/app/hooks/useExercise";
 import { useUser } from "@clerk/nextjs";
 import Title from "@/app/components/Title";
 import toast, { Toaster } from "react-hot-toast";
-import { categories } from "@/app/constants/categories";
+import { categories, categoryIcons, categoryTextColors, categoryColorsAndIcons } from "@/app/constants/categories";
 
 
 
 
-const categoryIcons: Record<string, string> = {
-  CHEST: "🫁",
-  BACK: "🔙",
-  LEGS: "🦵",
-  SHOULDERS: "💪",
-  ARMS: "🦾",
-  ABS: "🧱",
-};
-
-const categoryColors: Record<string, string> = {
-  CHEST: "from-red-500/20 to-red-600/10 border-red-500/20",
-  BACK: "from-blue-500/20 to-blue-600/10 border-blue-500/20",
-  LEGS: "from-violet-500/20 to-violet-600/10 border-violet-500/20",
-  SHOULDERS: "from-amber-500/20 to-amber-600/10 border-amber-500/20",
-  ARMS: "from-emerald-500/20 to-emerald-600/10 border-emerald-500/20",
-  ABS: "from-pink-500/20 to-pink-600/10 border-pink-500/20",
-};
-
-const categoryTextColors: Record<string, string> = {
-  CHEST: "text-red-400",
-  BACK: "text-blue-400",
-  LEGS: "text-violet-400",
-  SHOULDERS: "text-amber-400",
-  ARMS: "text-emerald-400",
-  ABS: "text-pink-400",
-};
 
 export default function Exercises() {
   const [modalOpen, setModalOpen] = useState(false);
@@ -103,7 +77,7 @@ export default function Exercises() {
           return (
             <div key={category} className="glass-card overflow-hidden">
               {/* Category header */}
-              <div className={`bg-gradient-to-r ${categoryColors[category]} p-4 border-b border-slate-700/30`}>
+              <div className={`bg-gradient-to-r ${categoryColorsAndIcons[category]} p-4 border-b border-slate-700/30`}>
                 <div className="flex items-center gap-3">
                   <span className="text-2xl">{categoryIcons[category]}</span>
                   <div>
