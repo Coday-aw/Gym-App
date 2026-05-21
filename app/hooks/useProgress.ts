@@ -66,7 +66,8 @@ const useProgress = (userId: string) => {
 
       for (const workout of data) {
         for (const we of workout.workouts_exercises || []) {
-          const exercise = we.exercise as Record<string, unknown> | null;
+          const exerciseData = Array.isArray(we.exercise) ? we.exercise[0] : we.exercise;
+          const exercise = exerciseData as Record<string, unknown> | null;
           if (!exercise) continue;
 
           const category = exercise.category as string;

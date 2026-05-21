@@ -48,23 +48,27 @@ const useWorkouts = (userId: string) => {
           date: w.date,
           user_id: w.user_id,
           exercises:
-            w.workouts_exercises?.map((we: Record<string, unknown>) => ({
-              exerciseId: we.exercise_id,
-              exercise: we.exercise
-                ? {
-                    id: (we.exercise as Record<string, unknown>).id,
-                    user_id: (we.exercise as Record<string, unknown>).user_id,
-                    name: (we.exercise as Record<string, unknown>).name,
-                    category: (we.exercise as Record<string, unknown>).category,
-                  }
-                : null,
-              sets:
-                (we.sets as Array<Record<string, unknown>>)?.map((s) => ({
-                  id: s.id as number,
-                  reps: s.reps as number,
-                  weight: s.weight as number,
-                })) ?? [],
-            })) ?? [],
+            w.workouts_exercises?.map((we: Record<string, unknown>) => {
+              const exData = Array.isArray(we.exercise) ? we.exercise[0] : we.exercise;
+              const ex = exData as Record<string, unknown> | null;
+              return {
+                exerciseId: we.exercise_id as number,
+                exercise: ex
+                  ? {
+                      id: ex.id as number,
+                      user_id: ex.user_id as string,
+                      name: ex.name as string,
+                      category: ex.category as string,
+                    }
+                  : null,
+                sets:
+                  (we.sets as Array<Record<string, unknown>>)?.map((s) => ({
+                    id: s.id as number,
+                    reps: s.reps as number,
+                    weight: s.weight as number,
+                  })) ?? [],
+              };
+            }) ?? [],
         })) ?? []
       );
     } catch (error) {

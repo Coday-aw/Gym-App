@@ -4,7 +4,7 @@ import { useUser } from "@clerk/nextjs";
 import useProgress from "@/app/hooks/useProgress";
 import Title from "@/app/components/Title";
 import { useRouter } from "next/navigation";
-import { categoryColors } from "@/app/constants/categories";
+import { categoryColorsAndIcons } from "@/app/constants/categories";
 
 
 export default function Progress() {
@@ -105,7 +105,7 @@ export default function Progress() {
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 stagger-children">
             {prs.map((pr) => {
-              const colors = categoryColors[pr.category] || categoryColors.CHEST;
+              const colors = categoryColorsAndIcons[pr.category] || categoryColorsAndIcons.CHEST;
               return (
                 <div
                   key={pr.category}
