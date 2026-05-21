@@ -17,6 +17,16 @@ export default function Workouts() {
   const { workouts, loading, refetch } = useWorkouts(user?.id || "");
   const router = useRouter();
   const [deletingId, setDeletingId] = useState<number | null>(null);
+  const [activeTab, setActiveTab] = useState<"upcoming" | "past">("upcoming");
+
+  const todayStr = new Date().toISOString().split("T")[0];
+  const filteredWorkouts = workouts.filter((workout) => {
+    if (activeTab === "upcoming") {
+      return workout.date >= todayStr;
+    } else {
+      return workout.date < todayStr;
+    }
+  });
 
   const handleDelete = async (e: React.MouseEvent, workoutId: number) => {
 
@@ -122,30 +132,60 @@ export default function Workouts() {
         </div>
       )}
 
+      {/* Tabs */}
+      {!loading && workouts.length > 0 && (
+        <div className="flex gap-2 mb-6 bg-slate-800/50 p-1 rounded-xl w-full max-w-sm mx-auto">
+          <button
+            className={`flex-1 py-2.5 text-sm font-medium rounded-lg transition-all ${activeTab === "upcoming"
+              ? "bg-gradient-to-r from-emerald-500 to-cyan-500 text-white shadow-lg shadow-emerald-500/20"
+              : "text-slate-400 hover:text-slate-200 hover:bg-slate-700/50"
+              }`}
+            onClick={() => setActiveTab("upcoming")}
+          >
+            Upcoming Workouts
+          </button>
+          <button
+            className={`flex-1 py-2.5 text-sm font-medium rounded-lg transition-all ${activeTab === "past"
+              ? "bg-gradient-to-r from-emerald-500 to-cyan-500 text-white shadow-lg shadow-emerald-500/20"
+              : "text-slate-400 hover:text-slate-200 hover:bg-slate-700/50"
+              }`}
+            onClick={() => setActiveTab("past")}
+          >
+            Past Workouts
+          </button>
+        </div>
+      )}
+
       {/* Empty state */}
-      {!loading && workouts.length === 0 && (
+      {!loading && filteredWorkouts.length === 0 && (
         <div className="flex flex-col items-center justify-center py-20 text-center">
           <div className="w-20 h-20 rounded-2xl bg-slate-800/50 flex items-center justify-center text-4xl mb-5 animate-float">
             💪
           </div>
           <h3 className="text-lg font-semibold text-slate-300 mb-2">
-            No workouts yet
+            {workouts.length === 0 ? "No workouts yet" : `No ${activeTab} workouts`}
           </h3>
           <p className="text-slate-500 text-sm max-w-xs mb-6">
-            Start your fitness journey by creating your first workout session.
+            {workouts.length === 0
+              ? "Start your fitness journey by creating your first workout session."
+              : activeTab === "upcoming"
+                ? "You have no upcoming workouts scheduled."
+                : "You don't have any completed workouts yet."}
           </p>
-          <Link href="../createWorkout">
-            <Button px="6" py="3">
-              Create First Workout
-            </Button>
-          </Link>
+          {workouts.length === 0 && (
+            <Link href="/pages/createWorkout">
+              <Button px="6" py="3">
+                Create First Workout
+              </Button>
+            </Link>
+          )}
         </div>
       )}
 
       {/* Workout cards */}
-      {!loading && workouts.length > 0 && (
+      {!loading && filteredWorkouts.length > 0 && (
         <section className="space-y-4 stagger-children">
-          {workouts.map((workout) => {
+          {filteredWorkouts.map((workout) => {
             const totalSets = workout.exercises.reduce(
               (acc: number, ex: WorkoutExercise) => acc + ex.sets.length,
               0
@@ -159,9 +199,14 @@ export default function Workouts() {
             return (
               <div
                 key={workout.id}
-                onClick={() => router.push(`/pages/edit/${workout.id}`)}
-                className={`glass-card p-5 cursor-pointer gradient-border pl-7 ${deletingId === workout.id ? "opacity-50 pointer-events-none" : ""
-                  }`}
+                onClick={() => {
+                  if (activeTab === "upcoming") {
+                    router.push(`/pages/edit/${workout.id}`);
+                  } else {
+                    toast.error("Completed workouts cannot be edited.");
+                  }
+                }}
+                className={`glass-card p-5 gradient-border pl-7 transition-all ${deletingId === workout.id ? "opacity-50 pointer-events-none" : ""} ${activeTab === "upcoming" ? "cursor-pointer hover:bg-slate-800/60" : "opacity-80"}`}
               >
                 {/* Header */}
                 <div className="flex justify-between items-start">
