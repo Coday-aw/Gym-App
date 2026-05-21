@@ -53,3 +53,8 @@ export const pageLinks = [
         icon: "📊"
     }
 ]
+
+
+
+
+export const categories = ["CHEST", "BACK", "LEGS", "SHOULDERS", "ARMS", "ABS"]
