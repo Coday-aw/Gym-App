@@ -1,4 +1,3 @@
-import Title from "./Title";
 import { features, progress } from "../constants/features";
 import Link from "next/link";
 
