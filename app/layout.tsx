@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Providers from "./components/Providers";
+import InstallPrompt from "./components/InstallPrompt";
+// Dynamically import InstallPrompt as client-only
 
 const inter = Inter({
   variable: "--font-inter",
@@ -22,9 +24,19 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link rel="manifest" href="/manifest.json" />
+        <meta name="theme-color" content="#10b981" />
+        <link rel="icon" href="/favicon.ico" />
+        <link rel="apple-touch-icon" sizes="192x192" href="/icons/icon-192x192.png" />
+        <link rel="apple-touch-icon" sizes="512x512" href="/icons/icon-512x512.png" />
+      </head>
       <body className={`${inter.variable} font-sans antialiased`}>
         <Providers>
-          <div className="relative z-10">{children}</div>
+          <div className="relative z-10">
+            {children}
+            <InstallPrompt />
+          </div>
         </Providers>
       </body>
     </html>
