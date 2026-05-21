@@ -1,14 +1,15 @@
-import React from 'react'
+import React from "react";
 
 type HeaderProps = {
-    children: React.ReactNode
-    size: string
-}
+  children: React.ReactNode;
+  size: string;
+  color?: string;
+};
 
-const Title = ({children, size}: HeaderProps) => {
-  return (
-    <div className={`font-bold uppercase ${size}`}>{children}</div>
-  )
-}
+const Title = ({ children, size, color }: HeaderProps) => {
+  const base = "font-bold tracking-tight";
+  const colorClass = color ?? "text-slate-100";
+  return <div className={`${base} ${size} ${colorClass}`}>{children}</div>;
+};
 
-export default Title
+export default Title;
