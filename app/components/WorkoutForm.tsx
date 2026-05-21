@@ -10,6 +10,7 @@ import SetsForm from "./SetsForm";
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import toast, { Toaster } from "react-hot-toast";
+import Link from "next/link";
 
 
 const WorkoutForm = () => {
@@ -242,7 +243,14 @@ const WorkoutForm = () => {
 
               <ul className="flex flex-col gap-1 max-h-72 overflow-auto">
                 {filteredExercises.length === 0 ? (
-                  <p className="text-center text-slate-500 py-8 text-sm">No exercises found</p>
+                  <div className="text-center py-8">
+                    <p className="text-slate-500 text-sm mb-4">No exercises found, Start by creating exercises </p>
+                    <Link href="/pages/exercises">
+                      <Button px="4" py="2">
+                        Create Exercises
+                      </Button>
+                    </Link>
+                  </div>
                 ) : (
                   filteredExercises.map((exercise) => (
                     <li
