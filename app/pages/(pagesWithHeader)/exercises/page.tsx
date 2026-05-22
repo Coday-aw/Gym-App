@@ -5,7 +5,7 @@ import { supabase } from "@/app/lib/SupbaseClient";
 import useExercises from "@/app/hooks/useExercise";
 import { useUser } from "@clerk/nextjs";
 import Title from "@/app/components/Title";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import { categories, categoryIcons, categoryTextColors, categoryColorsAndIcons } from "@/app/constants/categories";
 
 
@@ -54,7 +54,6 @@ export default function Exercises() {
   return (
     <div className="animate-fade-in">
       {/* Header */}
-      <Toaster position="top-center" />
       <section className="flex items-center justify-between mt-6 mb-6">
         <div>
           <Title size="text-2xl">Exercises</Title>
@@ -148,7 +147,7 @@ export default function Exercises() {
                   type="text"
                   placeholder="e.g. Bench Press"
                   name="exerciseName"
-                  className="bg-slate-800/80 border border-slate-700/50 rounded-xl p-3 w-full text-slate-100 text-sm placeholder:text-slate-600"
+                  className="bg-slate-800/80 border border-slate-700/50 rounded-xl p-3 w-full text-slate-100 text-base placeholder:text-slate-600"
                 />
               </div>
 

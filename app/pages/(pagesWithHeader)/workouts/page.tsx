@@ -9,7 +9,7 @@ import useWorkouts from "@/app/hooks/useWorkout";
 import { useUser } from "@clerk/nextjs";
 import { supabase } from "@/app/lib/SupbaseClient";
 import { useState } from "react";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import { getCategoryColor } from "@/app/constants/categories";
 
 export default function Workouts() {
@@ -20,7 +20,8 @@ export default function Workouts() {
   const [activeTab, setActiveTab] = useState<"upcoming" | "past">("upcoming");
 
   const todayStr = new Date().toISOString().split("T")[0];
-  const filteredWorkouts = workouts.filter((workout) => {
+  const filteredWorkouts = [...workouts].sort((b, a) => new Date(b.date).getTime() - new Date(a.date).getTime())
+  .filter((workout) => {
     if (activeTab === "upcoming") {
       return workout.date >= todayStr;
     } else {
@@ -98,7 +99,6 @@ export default function Workouts() {
   return (
     <div className="animate-fade-in">
       {/* Top bar */}
-      <Toaster position="top-center" />
       <section className="flex justify-between items-center mt-6 mb-6">
         <div>
           <Title size="text-2xl">Workouts</Title>
