@@ -68,8 +68,31 @@ The project relies on Supabase for data management. Core tables include:
 - `exercise`: A dictionary of available exercises (id, name, category).
 - `workouts_exercises`: A junction table linking workouts and exercises.
 - `sets`: Stores the reps and weight for each exercise performed in a workout.
+- 
 
 ## 🤝 Contributing
 
 Contributions, issues, and feature requests are welcome! Feel free to check the issues page if you want to contribute.
+
+## 📸 Screenshots
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/8ca6cf07-616b-4e3c-99ff-92658d8c96ef" width="180" />
+  <img src="https://github.com/user-attachments/assets/3637dae9-7b5a-4d0d-825e-6a1b8292285c" width="180" />
+  <img src="https://github.com/user-attachments/assets/1f03a056-7f57-4b38-b85e-bae2cfc4fdb1" width="180" />
+  <img src="https://github.com/user-attachments/assets/e7d13bc9-dcd9-42c2-b90a-50cd7f76f4bd" width="180" />
+</p>
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/56a15b41-b912-4ee2-8ade-d69a858ba71c" width="180" />
+  <img src="https://github.com/user-attachments/assets/24a86f46-7c15-49b0-a485-ecaaff758294" width="180" />
+  <img src="https://github.com/user-attachments/assets/83bfe051-390c-4093-867e-774c29221575" width="180" />
+  <img src="https://github.com/user-attachments/assets/5a79f165-f0dc-4dd0-ba69-d2685b2c0442" width="180" />
+</p>
+
+
+
+
+
+
 
