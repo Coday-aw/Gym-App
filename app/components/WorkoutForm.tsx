@@ -9,7 +9,7 @@ import { supabase } from "../lib/SupbaseClient";
 import SetsForm from "./SetsForm";
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import Link from "next/link";
 
 
@@ -185,7 +185,6 @@ const WorkoutForm = () => {
 
   return (
     <form className="mt-6 space-y-6" onSubmit={handleSubmit}>
-      <Toaster position="top-center" />
       <div className="glass-card p-6 space-y-5">
         <div>
           <Label htmlFor="WorkoutTitle">Workout title</Label>
@@ -195,7 +194,7 @@ const WorkoutForm = () => {
             placeholder="e.g. Leg day, Push day..."
             onChange={(e) => setWorkout(prev => ({ ...prev, title: e.target.value }))}
             value={workout.title || ""}
-            className="bg-slate-900/80 border border-slate-700/50 p-3 rounded-xl mt-2 text-slate-100 w-full text-sm"
+            className="bg-slate-900/80 border border-slate-700/50 p-3 rounded-xl mt-2 text-slate-100 w-full text-base"
           />
         </div>
         <div>
@@ -205,19 +204,12 @@ const WorkoutForm = () => {
             type="date"
             onChange={(e) => setWorkout(prev => ({ ...prev, date: e.target.value }))}
             value={workout.date}
-            className="bg-slate-900/80 border border-slate-700/50 p-3 rounded-xl mt-2 text-slate-100 w-full text-sm"
+            className="bg-slate-900/80 border border-slate-700/50 p-3 rounded-xl mt-2 text-slate-100 w-full text-base"
           />
         </div>
       </div>
 
-      <div className="glass-card p-6">
-        <div className="flex justify-between items-center mb-4">
-          <Title size="text-xl">Exercises</Title>
-          <Button type="button" width="auto" px="4" py="2" onClick={() => setIsOpen(!isOpen)}>
-            + Add
-          </Button>
-        </div>
-
+      {/* search and add exercise */}
         {isOpen && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm p-4 modal-overlay">
             <div className="w-full max-w-lg glass rounded-2xl p-6 shadow-2xl modal-content">
@@ -238,7 +230,7 @@ const WorkoutForm = () => {
                 placeholder="Search exercises..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full bg-slate-800/80 border border-slate-700/50 rounded-xl px-4 py-2.5 text-sm text-white placeholder:text-slate-500 mb-4"
+                className="w-full bg-slate-800/80 border border-slate-700/50 rounded-xl px-4 py-2.5 text-base text-white placeholder:text-slate-500 mb-4"
               />
 
               <ul className="flex flex-col gap-1 max-h-72 overflow-auto">
@@ -272,7 +264,16 @@ const WorkoutForm = () => {
             </div>
           </div>
         )}
+      <div className="glass-card p-6">
+        <div className="flex justify-between items-center mb-4">
+          <Title size="text-xl">Exercises</Title>
+          <Button type="button" width="auto" px="4" py="2" onClick={() => setIsOpen(!isOpen)}>
+            + Add
+          </Button>
+        </div>
 
+      
+    
         {/* display added exercises */}
         {workout.exercises.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-12 text-center">

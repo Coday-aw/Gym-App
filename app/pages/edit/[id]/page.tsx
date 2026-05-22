@@ -40,7 +40,7 @@ function EditPage() {
         exerciseId: we.exercise_id,
         workoutExerciseId: we.id,
         exercise: we.exercise ? { id: we.exercise.id, user_id: we.exercise.user_id, name: we.exercise.name, category: we.exercise.category } : null,
-        sets: (we.sets || []).map((s: any) => ({ id: s.id, reps: s.reps, weight: s.weight })),
+        sets: (we.sets || []).map((s: Set) => ({ id: s.id, reps: s.reps, weight: s.weight })),
       }));
       setWorkout({ id: data.id, title: data.title, date: data.date, user_id: data.user_id, exercises: wes });
       setOriginalWeIds(wes.map((w: WorkoutExerciseWithDbId) => w.workoutExerciseId).filter(Boolean) as number[]);
@@ -195,12 +195,6 @@ function EditPage() {
         <div><Label htmlFor="editDate">Date</Label><input id="editDate" type="date" value={workout.date} onChange={e => setWorkout({ ...workout, date: e.target.value })} className="bg-slate-900/80 border border-slate-700/50 p-3 rounded-xl mt-2 text-slate-100 w-full text-sm" /></div>
       </div>
 
-      <div className="glass-card p-6 mt-6">
-        <div className="flex justify-between items-center mb-4">
-          <Title size="text-xl">Exercises</Title>
-          <Button type="button" width="auto" px="4" py="2" onClick={() => setModalOpen(true)}>+ Add</Button>
-        </div>
-
         {modalOpen && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm p-4 modal-overlay">
             <div className="w-full max-w-lg glass rounded-2xl p-6 shadow-2xl modal-content">
@@ -221,6 +215,11 @@ function EditPage() {
           </div>
         )}
 
+      <div className="glass-card p-6 mt-6">
+        <div className="flex justify-between items-center mb-4">
+          <Title size="text-xl">Exercises</Title>
+          <Button type="button" width="auto" px="4" py="2" onClick={() => setModalOpen(true)}>+ Add</Button>
+        </div>
         {workout.exercises.length === 0 ? (
           <div className="flex flex-col items-center py-12"><div className="w-16 h-16 rounded-2xl bg-slate-800/50 flex items-center justify-center text-3xl mb-4">🏋️</div><p className="text-slate-500 text-sm">No exercises added.</p></div>
         ) : (
