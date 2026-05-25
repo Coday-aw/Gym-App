@@ -2,7 +2,7 @@
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Workout, Exercise, Set, SetInsert } from "@/app/lib/types";
-import { supabase } from "@/app/lib/SupbaseClient";
+import { useSupabase } from "@/app/lib/SupbaseClient";
 import { useUser } from "@clerk/nextjs";
 import useExercises from "@/app/hooks/useExercise";
 import Title from "@/app/components/Title";
@@ -14,6 +14,7 @@ import { WorkoutExerciseWithDbId } from "@/app/lib/types";
 import {categoryColors} from "@/app/constants/categories";
 
 function EditPage() {
+  const supabase = useSupabase();
   const [workout, setWorkout] = useState<(Workout & { exercises: WorkoutExerciseWithDbId[] }) | null>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -36,19 +37,22 @@ function EditPage() {
         .eq("id", Number(params.id))
         .single();
       if (error || !data) { setLoading(false); return; }
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const wes = (data.workouts_exercises || []).map((we: any) => ({
-        exerciseId: we.exercise_id,
-        workoutExerciseId: we.id,
-        exercise: we.exercise ? { id: we.exercise.id, user_id: we.exercise.user_id, name: we.exercise.name, category: we.exercise.category } : null,
-        sets: (we.sets || []).map((s: Set) => ({ id: s.id, reps: s.reps, weight: s.weight })),
-      }));
+      const wes = (data.workouts_exercises || []).map((we: any) => {
+        const exData = Array.isArray(we.exercise) ? we.exercise[0] : we.exercise;
+        const ex = exData as Record<string, unknown> | null;
+        return {
+          exerciseId: we.exercise_id as number,
+          workoutExerciseId: we.id as number,
+          exercise: ex ? { id: ex.id as number, user_id: ex.user_id as string, name: ex.name as string, category: ex.category as string } : null,
+          sets: (we.sets || []).map((s: any) => ({ id: s.id, reps: s.reps, weight: s.weight })),
+        };
+      });
       setWorkout({ id: data.id, title: data.title, date: data.date, user_id: data.user_id, exercises: wes });
       setOriginalWeIds(wes.map((w: WorkoutExerciseWithDbId) => w.workoutExerciseId).filter(Boolean) as number[]);
       setLoading(false);
     };
     if (params.id) load();
-  }, [params.id]);
+  }, [params.id, supabase]);
 
   const filtered = exercises.filter(ex =>
     (ex.name.toLowerCase().includes(search.toLowerCase()) || ex.category.toLowerCase().includes(search.toLowerCase())) &&
