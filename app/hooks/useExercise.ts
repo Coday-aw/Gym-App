@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import { Exercise} from '../lib/types';
-import { supabase } from '../lib/SupbaseClient';
+import { useSupabase } from '../lib/SupbaseClient';
 
 const useExercises = (userId: string) => {
+  const supabase = useSupabase();
   const [exercises, setExercises] = useState<Exercise[]>([])
 
   const fetchData = async () => {
@@ -29,7 +30,7 @@ const useExercises = (userId: string) => {
     (async () => {
       await fetchData();
     })();
-  }, [userId]);
+  }, [userId, supabase]);
 
 return { exercises, refresh: fetchData }
 }

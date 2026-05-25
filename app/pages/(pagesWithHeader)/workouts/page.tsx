@@ -7,28 +7,28 @@ import { useRouter } from "next/navigation";
 import { WorkoutExercise } from "@/app/lib/types";
 import useWorkouts from "@/app/hooks/useWorkout";
 import { useUser } from "@clerk/nextjs";
-import { supabase } from "@/app/lib/SupbaseClient";
+import { useSupabase } from "@/app/lib/SupbaseClient";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { getCategoryColor } from "@/app/constants/categories";
 
 export default function Workouts() {
+  const supabase = useSupabase();
   const { user } = useUser();
   const { workouts, loading, refetch } = useWorkouts(user?.id || "");
   const router = useRouter();
   const [deletingId, setDeletingId] = useState<number | null>(null);
   const [activeTab, setActiveTab] = useState<"upcoming" | "past">("upcoming");
-  const [openPastModal, setOpenPastModal] = useState(false);
 
   const todayStr = new Date().toISOString().split("T")[0];
   const filteredWorkouts = [...workouts].sort((b, a) => new Date(b.date).getTime() - new Date(a.date).getTime())
-  .filter((workout) => {
-    if (activeTab === "upcoming") {
-      return workout.date >= todayStr;
-    } else {
-      return workout.date < todayStr;
-    }
-  });
+    .filter((workout) => {
+      if (activeTab === "upcoming") {
+        return workout.date >= todayStr;
+      } else {
+        return workout.date < todayStr;
+      }
+    });
 
   const handleDelete = async (e: React.MouseEvent, workoutId: number) => {
 
@@ -204,14 +204,10 @@ export default function Workouts() {
                   if (activeTab === "upcoming") {
                     router.push(`/pages/edit/${workout.id}`);
                   } else {
-                    // Optionally, you could allow viewing past workouts in a read-only mode instead of showing an error.
-                    // past workouts modal with details but no edit option
-                    toast.error("Viewing past workouts is not implemented yet");
-                    }
-
+                    router.push(`/pages/view/${workout.id}`);
                   }
-                }
-                className={`glass-card p-5 gradient-border pl-7 transition-all ${deletingId === workout.id ? "opacity-50 pointer-events-none" : ""} ${activeTab === "upcoming" ? "cursor-pointer hover:bg-slate-800/60" : "opacity-80"}`}
+                }}
+                className={`glass-card p-5 gradient-border pl-7 transition-all ${deletingId === workout.id ? "opacity-50 pointer-events-none" : ""} cursor-pointer hover:bg-slate-800/60`}
               >
                 {/* Header */}
                 <div className="flex justify-between items-start">

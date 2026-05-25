@@ -1,8 +1,9 @@
-import { supabase } from "../lib/SupbaseClient";
+import { useSupabase } from "../lib/SupbaseClient";
 import { Workout } from "../lib/types";
 import { useEffect, useState, useCallback } from "react";
 
 const useWorkouts = (userId: string) => {
+  const supabase = useSupabase();
   const [workouts, setWorkouts] = useState<Workout[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -76,7 +77,7 @@ const useWorkouts = (userId: string) => {
     } finally {
       setLoading(false);
     }
-  }, [userId]);
+  }, [userId, supabase]);
 
   useEffect(() => {
     fetchData();
