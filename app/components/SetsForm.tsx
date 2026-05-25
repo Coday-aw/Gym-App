@@ -34,7 +34,7 @@ const SetsForm = ({ sets, onAdd, onRemove, onUpdate }: SetFormProps) => {
                 onUpdate(set.id, { weight: Number(e.target.value) })
               }
               placeholder="0"
-              className="w-full bg-slate-900/80 border border-slate-700/50 rounded-lg px-3 py-2.5 text-white text-sm font-medium placeholder:text-slate-600 focus:border-emerald-500/50 transition-all"
+              className="w-full bg-slate-900/80 border border-slate-700/50 rounded-lg px-3 py-2.5 text-white text-base font-medium placeholder:text-slate-600 focus:border-emerald-500/50 transition-all"
             />
           </div>
           <div className="relative">
@@ -47,7 +47,7 @@ const SetsForm = ({ sets, onAdd, onRemove, onUpdate }: SetFormProps) => {
                 onUpdate(set.id, { reps: Number(e.target.value) })
               }
               placeholder="0"
-              className="w-full bg-slate-900/80 border border-slate-700/50 rounded-lg px-3 py-2.5 text-white text-sm font-medium placeholder:text-slate-600 focus:border-emerald-500/50 transition-all"
+              className="w-full bg-slate-900/80 border border-slate-700/50 rounded-lg px-3 py-2.5 text-white text-base font-medium placeholder:text-slate-600 focus:border-emerald-500/50 transition-all"
             />
           </div>
           <button
@@ -66,7 +66,7 @@ const SetsForm = ({ sets, onAdd, onRemove, onUpdate }: SetFormProps) => {
       <button
         type="button"
         onClick={onAdd}
-        className="w-full py-2.5 rounded-lg border border-dashed border-slate-700/50 text-slate-400 text-sm font-medium hover:border-emerald-500/40 hover:text-emerald-400 hover:bg-emerald-500/5 transition-all duration-200 cursor-pointer mt-1"
+        className="w-full py-2.5 rounded-lg border border-dashed border-slate-700/50 text-sm font-medium hover:border-emerald-500/40 text-emerald-400 bg-emerald-500/5 transition-all duration-200 cursor-pointer mt-1"
       >
         + Add Set
       </button>

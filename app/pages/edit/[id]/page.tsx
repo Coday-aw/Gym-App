@@ -11,6 +11,7 @@ import Label from "@/app/components/Label";
 import SetsForm from "@/app/components/SetsForm";
 import toast from "react-hot-toast";
 import { WorkoutExerciseWithDbId } from "@/app/lib/types";
+import {categoryColors} from "@/app/constants/categories";
 
 function EditPage() {
   const [workout, setWorkout] = useState<(Workout & { exercises: WorkoutExerciseWithDbId[] }) | null>(null);
@@ -191,8 +192,8 @@ function EditPage() {
       </section>
 
       <div className="glass-card p-6 space-y-5">
-        <div><Label htmlFor="editTitle">Workout title</Label><input id="editTitle" type="text" value={workout.title} onChange={e => setWorkout({ ...workout, title: e.target.value })} className="bg-slate-900/80 border border-slate-700/50 p-3 rounded-xl mt-2 text-slate-100 w-full text-sm" /></div>
-        <div><Label htmlFor="editDate">Date</Label><input id="editDate" type="date" value={workout.date} onChange={e => setWorkout({ ...workout, date: e.target.value })} className="bg-slate-900/80 border border-slate-700/50 p-3 rounded-xl mt-2 text-slate-100 w-full text-sm" /></div>
+        <div><Label htmlFor="editTitle">Workout title</Label><input id="editTitle" type="text" value={workout.title} onChange={e => setWorkout({ ...workout, title: e.target.value })} className="bg-slate-900/80 border border-slate-700/50 p-3 rounded-xl mt-2 text-slate-100 w-full text-base" /></div>
+        <div><Label htmlFor="editDate">Date</Label><input id="editDate" type="date" value={workout.date} onChange={e => setWorkout({ ...workout, date: e.target.value })} className="bg-slate-900/80 border border-slate-700/50 p-3 rounded-xl mt-2 text-slate-100 w-full text-base" /></div>
       </div>
 
         {modalOpen && (
@@ -202,7 +203,7 @@ function EditPage() {
                 <Title size="text-lg">Select Exercise</Title>
                 <button className="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-white hover:bg-slate-700/50 transition-all cursor-pointer" onClick={() => { setModalOpen(false); setSearch(""); }}>✕</button>
               </div>
-              <input type="text" placeholder="Search..." value={search} onChange={e => setSearch(e.target.value)} className="w-full bg-slate-800/80 border border-slate-700/50 rounded-xl px-4 py-2.5 text-sm text-white placeholder:text-slate-500 mb-4" />
+              <input type="text" placeholder="Search..." value={search} onChange={e => setSearch(e.target.value)} className="w-full bg-slate-800/80 border border-slate-700/50 rounded-xl px-4 py-2.5 text-base text-white placeholder:text-slate-500 mb-4" />
               <ul className="flex flex-col gap-1 max-h-72 overflow-auto">
                 {filtered.length === 0 ? <p className="text-center text-slate-500 py-8 text-sm">No exercises found</p> : filtered.map(ex => (
                   <li key={ex.id} className="flex justify-between items-center p-3 rounded-xl hover:bg-slate-700/50 cursor-pointer transition-all group" onClick={() => addExercise(ex)}>
@@ -230,7 +231,7 @@ function EditPage() {
                   <div className="flex items-center gap-2">
                     <div className="w-1 h-6 rounded-full bg-gradient-to-b from-emerald-500 to-cyan-500" />
                     <h3 className="font-bold text-emerald-400">{w.exercise?.name}</h3>
-                    <span className="text-xs text-slate-600 bg-slate-800 px-2 py-0.5 rounded-full">{w.exercise?.category}</span>
+                    <span className={`text-xs ${categoryColors[w.exercise?.category ?? "default"]} bg-slate-800 px-2 py-0.5 rounded-full`}>{w.exercise?.category ?? "Unknown"}</span>
                   </div>
                   <button type="button" onClick={() => removeExercise(w.exerciseId)} className="text-slate-600 hover:text-rose-400 transition-colors cursor-pointer p-1"><svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg></button>
                 </div>
