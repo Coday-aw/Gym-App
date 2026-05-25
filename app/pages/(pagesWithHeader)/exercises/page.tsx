@@ -24,7 +24,27 @@ export default function Exercises() {
     const exerciseName = formData.get("exerciseName") as string;
     const category = selectedCategory;
     if (!exerciseName || !category) return;
+    
+    // Check if exercise with the same name already exists in the same category
+    const { data: existingExercises, error: fetchError } = await supabase
+      .from("exercise")
+      .select()
+      .eq("name", exerciseName)
+      .eq("category", category)
+      .eq("user_id", user?.id || "");
+    
+    if (fetchError) {
+      console.error("Error checking existing exercises:", fetchError);
+      toast.error("An error occurred while adding the exercise. Please try again.");
+      return;
+    }
 
+    if (existingExercises && existingExercises.length > 0) {
+      toast.error("An exercise with the same name already exists in this category!");
+      return;
+    }
+    
+   // If no duplicates, proceed to add the new exercise
     try {
       const { error } = await supabase
         .from("exercise")

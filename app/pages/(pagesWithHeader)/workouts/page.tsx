@@ -18,6 +18,7 @@ export default function Workouts() {
   const router = useRouter();
   const [deletingId, setDeletingId] = useState<number | null>(null);
   const [activeTab, setActiveTab] = useState<"upcoming" | "past">("upcoming");
+  const [openPastModal, setOpenPastModal] = useState(false);
 
   const todayStr = new Date().toISOString().split("T")[0];
   const filteredWorkouts = [...workouts].sort((b, a) => new Date(b.date).getTime() - new Date(a.date).getTime())
@@ -203,9 +204,13 @@ export default function Workouts() {
                   if (activeTab === "upcoming") {
                     router.push(`/pages/edit/${workout.id}`);
                   } else {
-                    toast.error("Completed workouts cannot be edited.");
+                    // Optionally, you could allow viewing past workouts in a read-only mode instead of showing an error.
+                    // past workouts modal with details but no edit option
+                    toast.error("Viewing past workouts is not implemented yet");
+                    }
+
                   }
-                }}
+                }
                 className={`glass-card p-5 gradient-border pl-7 transition-all ${deletingId === workout.id ? "opacity-50 pointer-events-none" : ""} ${activeTab === "upcoming" ? "cursor-pointer hover:bg-slate-800/60" : "opacity-80"}`}
               >
                 {/* Header */}
